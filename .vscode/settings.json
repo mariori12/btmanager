@@ -1,0 +1,16 @@
+{
+  // ******************************
+  // Common settings
+  // ******************************
+  "files.autoGuessEncoding": false,
+  "files.encoding": "utf8",
+  // ******************************
+  // Extensions settings
+  // ******************************
+  // Ruby
+  "ruby.lint": {
+    "rubocop": {
+      "useBundler": true,
+    },
+  },
+}
