@@ -55,6 +55,7 @@ end
 
 gem 'rails-i18n', '~> 6.0.0'
 gem 'bootstrap'
+gem 'kaminari'
 
 group :development do
   gem 'rubocop', require: false
