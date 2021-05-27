@@ -1,24 +1,8 @@
-# README
+## 開発コマンド一覧
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
-
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+```sh
+# RuboCopによる静的解析を実行する
+bundle exec rubocop
+# HTML Beautifierによるerbフォーマットを実行する
+echo 'Run htmlbeautifier...'; for file in $(find . -name '*.erb'); do echo $file; bundle exec htmlbeautifier --stop-on-errors --keep-blank-lines 1 $file; done
+```
