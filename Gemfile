@@ -64,4 +64,5 @@ group :development do
   gem 'rubocop-rspec', require: false
   gem 'ruby-debug-ide'
   gem 'debase'
+  gem 'htmlbeautifier'
 end
