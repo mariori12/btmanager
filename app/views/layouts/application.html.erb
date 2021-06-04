@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Btmanager</title>
+    <title>BTmanager</title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
@@ -10,6 +10,23 @@
   </head>
 
   <body>
-    <%= yield %>
+    <%= render 'shared/header' %>
+
+    <% if logged_in? %>
+      <div class="nav justify-content-end me-4 lead">[<%= "#{current_user.name}" %>]でログイン中</div>
+    <% end %>
+    <div class="container">
+      <% if flash.notice.present? %>
+        <div class="alert alert-success">
+          <%= flash.notice %>
+        </div>
+      <% end %>
+      <% if flash.alert.present? %>
+        <div class="alert alert-danger">
+          <%= flash.alert %>
+        </div>
+      <% end %>
+      <%= yield %>
+    </div>
   </body>
 </html>
