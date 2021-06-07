@@ -8,7 +8,7 @@ class User < ApplicationRecord
   validates :email, presence: true, format: { with: VALID_EMAIL_REGEX }, uniqueness: true
   validates :password, presence: true, allow_nil: true
 
-  default_scope -> { order(user_id: :asc) }
+  default_scope -> { order(id: :asc) }
 
   def self.digest(string)
     cost = ActiveModel::SecurePassword.min_cost ? BCrypt::Engine::MIN_COST : BCrypt::Engine.cost

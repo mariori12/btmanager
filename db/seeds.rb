@@ -11,13 +11,15 @@ User.create!(name: 'Test User',
              password: 'foobar',
              password_confirmation: 'foobar')
 
-199.times do |n|
-  name  = Gimei.kanji
-  email = "test-#{n + 1}@example.com"
-  password = 'password'
-  User.create!(name: name,
-               email: email,
-               admin: false,
-               password: password,
-               password_confirmation: password)
+if Rails.env.development?
+  199.times do |n|
+    name  = Gimei.kanji
+    email = "test-#{n + 1}@example.com"
+    password = 'password'
+    User.create!(name: name,
+                 email: email,
+                 admin: false,
+                 password: password,
+                 password_confirmation: password)
+  end
 end
