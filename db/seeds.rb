@@ -22,4 +22,9 @@ if Rails.env.development?
                  password: password,
                  password_confirmation: password)
   end
+  user = User.first
+  199.times do |t|
+    measurement_date = Time.zone.today + t
+    user.body_temperatures.create!(measurement_date: measurement_date, temperature: rand(35.9..38.1), user_id: user.id)
+  end
 end

@@ -1,0 +1,23 @@
+<%= render 'shared/errors', object: @body_temperature %>
+
+<%= form_with model: body_temperature, local: true do |f| %>
+  <div class="row">
+    <div class="col-md-auto me-5">
+      <%= f.label :name, '名前' %>
+      <%= f.text_field :name, value: "#{user.name}", readonly: true, disabled: true, class: 'form-control' %>
+      <%= hidden_field_tag :user_id, user.id %>
+    </div>
+    <div class="col-md-auto me-5">
+      <%= f.label :measurement_date, '検温日' %><br>
+      <%= f.date_select :measurement_date, { use_month_numbers: true }, { class:'form-select-sm d-inline-block w-auto' } %>
+    </div>
+    <div class="col-md-auto pe-0">
+      <%= f.label :temperature, '体温' %><br>
+      <%= f.select :temperature, BodyTemperature.create_body_temperatures_array, { prompt: '--' }, { class: 'form-select-sm' } %>
+    </div>
+    <div class="col-md-auto ps-0 d-flex flex-column-reverse">
+      <div class="p-2">℃</div>
+    </div>
+  </div>
+  <%= f.submit '登録する', class: 'btn btn-primary mt-3' %>
+<% end %>

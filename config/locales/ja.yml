@@ -2,6 +2,7 @@ ja:
   activerecord:
     models:
       user: ユーザ
+      body_temperature: 体温
     attributes:
       user:
         id: ID
@@ -12,10 +13,28 @@ ja:
         password_confirmation: パスワード(確認)
         created_at: 登録日時
         updated_at: 更新日時
+      body_temperature:
+        name: 名前
+        user_id: ユーザID
+        measurement_date: 検温日
+        temperature: 体温
+        created_at: 登録日時
+        updated_at: 更新日時
   views:
-      pagination:
-        first: "&laquo; 最初"
-        last: "最後 &raquo;"
-        previous: "&lsaquo; 前"
-        next: "次 &rsaquo;"
-        truncate: "..."
+    pagination:
+      first: "&laquo; 最初"
+      last: "最後 &raquo;"
+      previous: "&lsaquo; 前"
+      next: "次 &rsaquo;"
+      truncate: "..."
+  time:
+    formats:
+      default: '%Y/%m/%d %H:%M'
+      long: '%Y年%m月%d日(%a) %H時%M分%S秒 %z'
+      short: '%m/%d %H:%M'
+  date:
+    formats:
+      default: "%Y/%m/%d"
+      short: "%m/%d"
+      long: "%Y年%m月%d日(%a)"
+      year_month: "%Y年%m月"

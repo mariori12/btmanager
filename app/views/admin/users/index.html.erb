@@ -20,10 +20,10 @@
         <td class="align-middle"><%= link_to user.name, [:admin, user] %></td>
         <td class="align-middle"><%= user.email %></td>
         <td class="align-middle"><%= user.admin? ? '○' : '×' %></td>
-        <td class="align-middle"><%= user.created_at %></td>
-        <td class="align-middle"><%= user.updated_at %></td>
+        <td class="align-middle"><%= l(user.created_at, format: :default) %></td>
+        <td class="align-middle"><%= l(user.updated_at, format: :default) %></td>
         <td>
-          <%= link_to '体温一覧', body_temperatures_path, class: 'btn btn-success me-2' %>
+          <%= link_to '体温一覧', body_temperatures_path(user_id: user.id), class: 'btn btn-success me-2' %>
           <%= link_to '編集', edit_admin_user_path(user), class: 'btn btn-primary me-2' %>
           <%= link_to '削除', [:admin, user], method: :delete, data: { confirm: "ユーザ「#{user.name}」を削除します。よろしいですか？" }, class: 'btn btn-danger' %>
         </td>

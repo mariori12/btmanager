@@ -1,0 +1,7 @@
+<h1>体温登録</h1>
+
+<div class="nav justify-content-end">
+  <%= link_to '一覧', body_temperatures_path(user_id: @user.id), class: 'nav-link' %>
+</div>
+
+<%= render 'form', body_temperature: @body_temperature, user: @user %>

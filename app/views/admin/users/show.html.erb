@@ -6,10 +6,6 @@
 <table class="table table-hover">
   <tbody>
     <tr>
-      <th><%= User.human_attribute_name(:id) %></th>
-      <td><%= @user.id %></td>
-    </tr>
-    <tr>
       <th><%= User.human_attribute_name(:name) %></th>
       <td><%= @user.name %></td>
     </tr>
@@ -23,11 +19,11 @@
     </tr>
     <tr>
       <th><%= User.human_attribute_name(:created_at) %></th>
-      <td><%= @user.created_at %></td>
+      <td><%= l(@user.created_at, format: :default) %></td>
     </tr>
     <tr>
       <th><%= User.human_attribute_name(:updated_at) %></th>
-      <td><%= @user.updated_at %></td>
+      <td><%= l(@user.updated_at, format: :default) %></td>
     </tr>
   </tbody>
 </table>

@@ -2,7 +2,7 @@ class Admin::UsersController < ApplicationController
   before_action :require_admin
 
   def index
-    @users = User.page(params[:page]).per(25)
+    @users = User.all.page(params[:page]).per(25)
   end
 
   def create

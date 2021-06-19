@@ -1,0 +1,32 @@
+<h1>体温詳細</h1>
+
+<div class="nav justify-content-end">
+  <%= link_to '一覧', body_temperatures_path(user_id: @body_temperature.user.id), class: 'nav-link' %>
+</div>
+<table class="table table-hover">
+  <tbody>
+    <tr>
+      <th><%= User.human_attribute_name(:name) %></th>
+      <td><%= @body_temperature.user.name %></td>
+    </tr>
+    <tr>
+      <th><%= BodyTemperature.human_attribute_name(:measurement_date) %></th>
+      <td><%= l(@body_temperature.measurement_date, format: :default) %></td>
+    </tr>
+    <tr>
+      <th><%= BodyTemperature.human_attribute_name(:temperature) %></th>
+      <td><%= @body_temperature.temperature %>℃</td>
+    </tr>
+    <tr>
+      <th><%= BodyTemperature.human_attribute_name(:created_at) %></th>
+      <td><%= l(@body_temperature.created_at, format: :default) %></td>
+    </tr>
+    <tr>
+      <th><%= BodyTemperature.human_attribute_name(:updated_at) %></th>
+      <td><%= l(@body_temperature.updated_at, format: :default) %></td>
+    </tr>
+  </tbody>
+</table>
+
+<%= link_to '編集', edit_body_temperature_path(user_id: @body_temperature.user.id), class: 'btn btn-primary me-2' %>
+<%= link_to '削除', @body_temperature, method: :delete, data: { confirm: "「#{I18n.l(@body_temperature.measurement_date, format: :default)}」の体温を削除します。よろしいですか？" }, class: 'btn btn-danger' %>
