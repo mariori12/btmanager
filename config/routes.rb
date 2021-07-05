@@ -8,6 +8,9 @@ Rails.application.routes.draw do
 
   namespace :admin do
     resources :users
+
+    get '/temperatures', to: 'export_body_temperatures#index'
+    get '/temperatures/export', to: 'export_body_temperatures#export'
   end
   resources :body_temperatures
 end

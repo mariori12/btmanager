@@ -1,0 +1,47 @@
+<h1>
+  帳票出力
+  <% if @selected_search_measurement_date.present? %>
+    <span class="fs-4"><%="(「#{l(@selected_search_measurement_date, format: :year_month)}」の検索結果)" %></span>
+  <% end %>
+</h1>
+<%= render 'search', selected_search_measurement_date: @selected_search_measurement_date %>
+
+<div class="mb-3"></div>
+<% if @selected_search_measurement_date.blank? && @body_temperatures.blank? %>
+  <div class="mt-5">
+    <p class="fs-3">「検温年月」を選択後、[検索する]ボタンを押下し</p>
+    <p class="fs-3">CSV出力対象の体温一覧を表示してください。</p>
+  </div>
+<% else %>
+  <table class="table table-hover">
+    <thead class="thead-default">
+      <tr>
+        <th><%= User.human_attribute_name(:name) %></th>
+        <th><%= BodyTemperature.human_attribute_name(:measurement_date) %></th>
+        <th><%= BodyTemperature.human_attribute_name(:temperature) %></th>
+        <th><%= BodyTemperature.human_attribute_name(:created_at) %></th>
+        <th><%= BodyTemperature.human_attribute_name(:updated_at) %></th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @body_temperatures.each do |body_temperature| %>
+        <tr>
+          <td class="align-middle"><%= body_temperature.user.name %></td>
+          <td class="align-middle"><%= link_to l(body_temperature.measurement_date, format: :default), body_temperature %></td>
+          <td class="align-middle"><%= BodyTemperature.convert_body_temperature_display(body_temperature.temperature) %></td>
+          <td class="align-middle"><%= l(body_temperature.created_at, format: :default) %></td>
+          <td class="align-middle"><%= l(body_temperature.updated_at, format: :default) %></td>
+          <td>
+            <%= link_to '編集', edit_body_temperature_path(body_temperature, user_id: body_temperature.user.id), class: 'btn btn-primary me-2' %>
+            <%= link_to '削除', body_temperature, method: :delete, data: { confirm: "「#{l(body_temperature.measurement_date, format: :default)}」の体温を削除します。よろしいですか？" }, class: 'btn btn-danger' %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>
+<% if @selected_search_measurement_date.present? && @body_temperatures.present? %>
+  <%= link_to "体温一覧CSV出力", admin_temperatures_export_path(selected_search_measurement_date: @selected_search_measurement_date, format: :csv), class: 'btn btn-success me-2' %>
+  <%= paginate @body_temperatures %>
+<% end %>

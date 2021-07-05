@@ -11,7 +11,7 @@ class BodyTemperature < ApplicationRecord
                                           less_than_or_equal_to: VALID_BODY_TEMPERATURE_MAX }
   validates :measurement_date, presence: true, uniqueness: { scope: :user_id }
 
-  default_scope -> { order(measurement_date: :desc) }
+  default_scope -> { order(user_id: :asc, measurement_date: :desc) }
 
   def self.create_body_temperatures_array
     body_temperatures_array = [Array.new(['36.0℃未満', 35.9])]
@@ -25,5 +25,30 @@ class BodyTemperature < ApplicationRecord
     end
     body_temperatures_array.push(Array.new(['38.1℃以上', 38.1]))
     body_temperatures_array
+  end
+
+  def self.convert_body_temperature_display(body_temperature)
+    return if body_temperature.blank?
+
+    body_temperature_min = 36
+    body_temperature_max = 38.1
+    if body_temperature >= body_temperature_max
+      '38.1℃以上'
+    elsif body_temperature < body_temperature_min
+      '36.0℃未満'
+    else
+      "#{body_temperature}℃"
+    end
+  end
+
+  def self.create_body_temperatures_hash_of_user(date_range)
+    return if date_range.blank?
+
+    body_temperatures = where(measurement_date: date_range)
+
+    body_temperatures.each_with_object({}) do |body_temperature, hash|
+      hash[body_temperature.user_id] = {} if hash[body_temperature.user_id].nil?
+      hash[body_temperature.user_id][body_temperature.measurement_date.day] = body_temperature.temperature
+    end
   end
 end

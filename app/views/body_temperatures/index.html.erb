@@ -1,11 +1,11 @@
 <h1>
   <%= "[#{@user.name}]" %>さんの体温一覧
-  <% if @selected_date %>
-    <span class="fs-4"><%="(「#{I18n.l(@selected_date, format: :year_month)}」の検索結果)" %></span>
+  <% if @selected_search_measurement_date.present? %>
+    <span class="fs-4"><%="(「#{l(@selected_search_measurement_date, format: :year_month)}」の検索結果)" %></span>
   <% end %>
 </h1>
 <%= link_to '新規登録', new_body_temperature_path(user_id: @user.id), class: 'btn btn-primary mt-3' %>
-<%= render 'search', user: @user, selected_date: @selected_date %>
+<%= render 'search', user: @user, selected_search_measurement_date: @selected_search_measurement_date %>
 
 <div class="mb-3"></div>
 <table class="table table-hover">
@@ -23,13 +23,13 @@
     <% @body_temperatures.each do |body_temperature| %>
       <tr>
         <td class="align-middle"><%= body_temperature.user.name %></td>
-        <td class="align-middle"><%= link_to l(body_temperature.measurement_date, format: :default), body_temperature%></td>
-        <td class="align-middle"><%= body_temperature.temperature%>℃</td>
+        <td class="align-middle"><%= link_to l(body_temperature.measurement_date, format: :default), body_temperature %></td>
+        <td class="align-middle"><%= BodyTemperature.convert_body_temperature_display(body_temperature.temperature) %></td>
         <td class="align-middle"><%= l(body_temperature.created_at, format: :default) %></td>
         <td class="align-middle"><%= l(body_temperature.updated_at, format: :default) %></td>
         <td>
           <%= link_to '編集', edit_body_temperature_path(body_temperature, user_id: body_temperature.user.id), class: 'btn btn-primary me-2' %>
-          <%= link_to '削除', body_temperature, method: :delete, data: { confirm: "「#{I18n.l(body_temperature.measurement_date, format: :default)}」の体温を削除します。よろしいですか？" }, class: 'btn btn-danger' %>
+          <%= link_to '削除', body_temperature, method: :delete, data: { confirm: "「#{l(body_temperature.measurement_date, format: :default)}」の体温を削除します。よろしいですか？" }, class: 'btn btn-danger' %>
         </td>
       </tr>
     <% end %>
