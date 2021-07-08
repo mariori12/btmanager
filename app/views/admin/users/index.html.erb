@@ -8,9 +8,9 @@
     <tr>
       <th><%= User.human_attribute_name(:name) %></th>
       <th><%= User.human_attribute_name(:email) %></th>
-      <th><%= User.human_attribute_name(:admin) %></th>
-      <th><%= User.human_attribute_name(:created_at) %></th>
-      <th><%= User.human_attribute_name(:updated_at) %></th>
+      <th class="attr-admin"><%= User.human_attribute_name(:admin) %></th>
+      <th class="attr-created-at"><%= User.human_attribute_name(:created_at) %></th>
+      <th class="attr-updated-at"><%= User.human_attribute_name(:updated_at) %></th>
       <th></th>
     </tr>
   </thead>
@@ -19,9 +19,9 @@
       <tr>
         <td class="align-middle"><%= link_to user.name, [:admin, user] %></td>
         <td class="align-middle"><%= user.email %></td>
-        <td class="align-middle"><%= user.admin? ? '○' : '×' %></td>
-        <td class="align-middle"><%= l(user.created_at, format: :default) %></td>
-        <td class="align-middle"><%= l(user.updated_at, format: :default) %></td>
+        <td class="align-middle attr-admin"><%= user.admin? ? '○' : '×' %></td>
+        <td class="align-middle attr-created-at"><%= l(user.created_at, format: :default) %></td>
+        <td class="align-middle attr-updated-at"><%= l(user.updated_at, format: :default) %></td>
         <td>
           <%= link_to '体温一覧', body_temperatures_path(user_id: user.id), class: 'btn btn-success me-2' %>
           <%= link_to '編集', edit_admin_user_path(user), class: 'btn btn-primary me-2' %>

@@ -1,5 +1,16 @@
 @import 'bootstrap';
 
+/* タブレット端末等での表示時、レイアウト崩れ防止にテーブル表示を一部省略する */
+th, td {
+  &.attr-admin,
+  &.attr-created-at,
+  &.attr-updated-at {
+    @media (max-width: 768px) {
+      display: none;
+    }
+  }
+}
+
 /* バリデーションエラー時のレイアウト崩れ防止 */
 .field_with_errors {
   display: contents;

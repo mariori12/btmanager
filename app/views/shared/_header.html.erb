@@ -1,15 +1,22 @@
-<div class="app-title navbar navbar-expand-md navbar-light bg-light">
-  <div class="navbar-brand ms-3">BTmanager</div>
-  <ul class="navbar-nav ms-auto">
-    <% if logged_in? %>
-      <li class="nav-item px-1"><%= link_to '体温一覧', body_temperatures_path, class: 'nav-link' %></li>
-      <% if current_user.admin? %>
-        <li class="nav-item px-1"><%= link_to 'ユーザ一覧', admin_users_path, class: 'nav-link' %></li>
-        <li class="nav-item px-1"><%= link_to '帳票出力', admin_temperatures_path, class: 'nav-link' %></li>
-      <% end %>
-      <li class="nav-item px-1"><%= link_to 'ログアウト', logout_path, method: :delete, class: 'nav-link' %> </li>
-    <% else %>
-      <li class="nav-item px-1"><%= link_to 'ログイン', login_path, class: 'nav-link' %></li>
-    <% end %>
-  </ul>
-</div>
+<nav class="navbar navbar-expand-md navbar-light bg-light">
+  <div class="container-fluid">
+    <div class="navbar-brand ms-3">BTmanager</div>
+    <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#Navber" aria-controls="Navber" aria-expanded="false" >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="Navber">
+      <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+        <% if logged_in? %>
+          <li class="nav-item px-1"><%= link_to '体温一覧', body_temperatures_path, class: 'nav-link' %></li>
+          <% if current_user.admin? %>
+            <li class="nav-item px-1"><%= link_to 'ユーザ一覧', admin_users_path, class: 'nav-link' %></li>
+            <li class="nav-item px-1"><%= link_to '帳票出力', admin_temperatures_path, class: 'nav-link' %></li>
+          <% end %>
+          <li class="nav-item px-1"><%= link_to 'ログアウト', logout_path, method: :delete, class: 'nav-link' %> </li>
+        <% else %>
+          <li class="nav-item px-1"><%= link_to 'ログイン', login_path, class: 'nav-link' %></li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+</nav>

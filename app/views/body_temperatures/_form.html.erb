@@ -14,9 +14,7 @@
     <div class="col-md-auto pe-0">
       <%= f.label :temperature, '体温' %><br>
       <%= f.select :temperature, BodyTemperature.create_body_temperatures_array, { prompt: '--' }, { class: 'form-select-sm' } %>
-    </div>
-    <div class="col-md-auto ps-0 d-flex flex-column-reverse">
-      <div class="p-2">℃</div>
+      &nbsp;℃&nbsp;
     </div>
   </div>
   <%= f.submit '登録する', class: 'btn btn-primary mt-3' %>

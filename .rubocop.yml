@@ -5,7 +5,7 @@ require:
 
 AllCops:
   TargetRubyVersion: 2.7
-  TargetRailsVersion: 6.1
+  TargetRailsVersion: 6.0
   Exclude:
     - bin/**/*
     - db/migrate/**/*
@@ -30,6 +30,9 @@ Layout/EmptyLinesAroundAttributeAccessor:
 
 Layout/LineLength:
   Max: 120
+
+Layout/LineEndStringConcatenationIndentation: # (new in 1.18)
+  Enabled: true
 
 Layout/MultilineOperationIndentation:
   Enabled: true
@@ -80,6 +83,9 @@ Lint/EmptyConditionalBody:
   Enabled: true
 
 Lint/EmptyFile: # (new in 0.90)
+  Enabled: true
+
+Lint/EmptyInPattern: # (new in 1.16)
   Enabled: true
 
 Lint/FloatComparison:
@@ -178,6 +184,9 @@ Metrics/ParameterLists:
 Naming/MethodParameterName:
   AllowedNames: [cc, id, to]
 
+Naming/InclusiveLanguage: # (new in 1.18)
+  Enabled: true
+
 Style/AccessorGrouping:
   Enabled: true
 
@@ -257,7 +266,13 @@ Style/HashTransformValues:
 Style/IfWithBooleanLiteralBranches: # (new in 1.9)
   Enabled: true
 
+Style/InPatternThen: # (new in 1.16)
+  Enabled: true
+
 Style/KeywordParametersOrder: # (new in 0.90)
+  Enabled: true
+
+Style/MultilineInPatternThen: # (new in 1.16)
   Enabled: true
 
 Style/NegatedIfElseCondition: # (new in 1.2)
@@ -270,6 +285,9 @@ Style/OptionalBooleanParameter:
   Enabled: true
 
 Style/RedundantArgument: # (new in 1.4)
+  Enabled: true
+
+Style/QuotedSymbols: # (new in 1.16)
   Enabled: true
 
 Style/RedundantAssignment:
@@ -311,19 +329,31 @@ Style/SwapValues: # (new in 1.1)
 Rails/ActiveRecordCallbacksOrder:
   Enabled: true
 
+Rails/AddColumnIndex: # (new in 2.11)
+  Enabled: true
+
 Rails/AfterCommitOverride: # (new in 2.8)
   Enabled: true
 
 Rails/AttributeDefaultBlockValue: # (new in 2.9)
   Enabled: true
 
+Rails/EagerEvaluationLogMessage: # (new in 2.11)
+  Enabled: true
+
 Rails/EnvironmentVariableAccess: # (new in 2.10)
+  Enabled: true
+
+Rails/ExpandedDateRange: # (new in 2.11)
   Enabled: true
 
 Rails/FindById:
   Enabled: true
 
 Rails/Inquiry:
+  Enabled: true
+
+Rails/I18nLocaleAssignment: # (new in 2.11)
   Enabled: true
 
 Rails/MailerName:
@@ -359,6 +389,9 @@ Rails/SquishedSQLHeredocs: # (new in 2.8)
 Rails/TimeZoneAssignment: # (new in 2.10)
   Enabled: true
 
+Rails/UnusedIgnoredColumns: # (new in 2.11)
+  Enabled: true
+
 Rails/WhereEquals: # (new in 2.9)
   Enabled: true
 
@@ -380,6 +413,9 @@ RSpec/ExampleLength:
 RSpec/FilePath:
   Enabled: false
 
+RSpec/IdenticalEqualityAssertion: # (new in 2.4)
+  Enabled: true
+
 RSpec/MultipleExpectations:
   Enabled: false
 
@@ -390,6 +426,9 @@ RSpec/NestedGroups:
   Max: 4
 
 RSpec/StubbedMock: # (new in 1.44)
+  Enabled: true
+
+RSpec/Rails/AvoidSetupHook: # (new in 2.4)
   Enabled: true
 
 Performance/AncestorsInclude:
