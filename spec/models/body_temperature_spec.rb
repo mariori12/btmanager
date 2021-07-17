@@ -47,6 +47,21 @@ RSpec.describe BodyTemperature, type: :model do
     expect(body_temperature.errors[:temperature]).to include('は不正な値です')
   end
 
+  it '検温日がなければ無効な状態であること' do
+    body_temperature = FactoryBot.build(:body_temperature, measurement_date: nil)
+    body_temperature.valid?
+    expect(body_temperature.errors[:measurement_date]).to include('を入力してください')
+  end
+
+  it 'ユーザに対して重複した検温日なら無効な状態であること' do
+    FactoryBot.create(:body_temperature, user_id: user.id, measurement_date: '2021/01/01')
+    body_temperature = FactoryBot.build(:body_temperature, user_id: user.id, measurement_date: '2021/01/01')
+    body_temperature.valid?
+    expect(body_temperature.errors[:measurement_date]).to include('はすでに存在します')
+    body_temperature = FactoryBot.build(:body_temperature, user_id: other_user.id, measurement_date: '2021/01/01')
+    expect(body_temperature).to be_valid
+  end
+
   it '35.9から38.1までの体温が格納された配列を取得できること' do
     expect_body_temperatures_array = [
       ['36.0℃未満', 35.9],
