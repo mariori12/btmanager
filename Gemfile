@@ -28,6 +28,9 @@ gem 'bootsnap', '>= 1.4.2', require: false
 
 group :development, :test do
   gem 'rspec-rails'
+  gem 'factory_bot_rails'
+  gem 'faker'
+  gem 'gimei'
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   # Use sqlite3 as the database for Active Record
@@ -67,8 +70,6 @@ group :development do
   gem 'ruby-debug-ide'
   gem 'debase'
   gem 'htmlbeautifier'
-  gem 'faker'
-  gem 'gimei'
 end
 
 group :production do

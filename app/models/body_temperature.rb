@@ -3,39 +3,39 @@ class BodyTemperature < ApplicationRecord
 
   before_save { self.temperature = temperature.floor(1) }
 
-  validates :user_id, presence: true
-  VALID_BODY_TEMPERATURE_MIN = 35.9
-  VALID_BODY_TEMPERATURE_MAX = 38.1
-  validates :temperature, presence: true,
-                          numericality: { greater_than_or_equal_to: VALID_BODY_TEMPERATURE_MIN,
-                                          less_than_or_equal_to: VALID_BODY_TEMPERATURE_MAX }
+  BODY_TEMPERATURE_RANGE = { min: 35.9, max: 38.1 }.freeze
+  validates :temperature,
+            numericality: { message: :invalid, greater_than_or_equal_to: BODY_TEMPERATURE_RANGE[:min],
+                            less_than_or_equal_to: BODY_TEMPERATURE_RANGE[:max] }
   validates :measurement_date, presence: true, uniqueness: { scope: :user_id }
 
   default_scope -> { order(user_id: :asc, measurement_date: :desc) }
 
+  BODY_TEMPERATURE_STEP = 0.1
+  BODY_TEMPERATURE_OFFSET = 10.0
+  ARRAY_COUNT_START = ((BODY_TEMPERATURE_RANGE[:min] + BODY_TEMPERATURE_STEP) * BODY_TEMPERATURE_OFFSET).to_i
+  ARRAY_COUNT_END = ((BODY_TEMPERATURE_RANGE[:max] - BODY_TEMPERATURE_STEP) * BODY_TEMPERATURE_OFFSET).to_i
+  ARRAY_COUNT_RANGE = (ARRAY_COUNT_START..ARRAY_COUNT_END).freeze
   def self.create_body_temperatures_array
-    body_temperatures_array = [Array.new(['36.0℃未満', 35.9])]
-    body_temperature_min = 360
-    body_temperature_max = 380
-    body_temperature_range = body_temperature_min..body_temperature_max
+    body_temperatures_array = [Array.new(
+      ["#{BODY_TEMPERATURE_RANGE[:min] + BODY_TEMPERATURE_STEP}℃未満", BODY_TEMPERATURE_RANGE[:min]]
+    )]
 
-    body_temperature_range.each do |body_temperature|
-      body_temperature /= 10.0
+    ARRAY_COUNT_RANGE.each do |array_count|
+      body_temperature = array_count / BODY_TEMPERATURE_OFFSET
       body_temperatures_array.push(Array.new([body_temperature.to_s, body_temperature]))
     end
-    body_temperatures_array.push(Array.new(['38.1℃以上', 38.1]))
+    body_temperatures_array.push(Array.new(["#{BODY_TEMPERATURE_RANGE[:max]}℃以上", BODY_TEMPERATURE_RANGE[:max]]))
     body_temperatures_array
   end
 
   def self.convert_body_temperature_display(body_temperature)
     return if body_temperature.blank?
 
-    body_temperature_min = 36
-    body_temperature_max = 38.1
-    if body_temperature >= body_temperature_max
-      '38.1℃以上'
-    elsif body_temperature < body_temperature_min
-      '36.0℃未満'
+    if body_temperature >= BODY_TEMPERATURE_RANGE[:max]
+      "#{BODY_TEMPERATURE_RANGE[:max]}℃以上"
+    elsif body_temperature <= BODY_TEMPERATURE_RANGE[:min]
+      "#{BODY_TEMPERATURE_RANGE[:min] + BODY_TEMPERATURE_STEP}℃未満"
     else
       "#{body_temperature}℃"
     end

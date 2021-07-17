@@ -1,6 +1,8 @@
 ## 開発コマンド一覧
 
 ```sh
+# RSpecによる自動テストを実行する
+bin/rspec
 # RuboCopによる静的解析を実行する
 bundle exec rubocop
 # HTML Beautifierによるerbフォーマットを実行する

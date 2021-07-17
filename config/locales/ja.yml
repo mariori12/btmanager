@@ -20,6 +20,8 @@ ja:
         temperature: 体温
         created_at: 登録日時
         updated_at: 更新日時
+  attributes:
+    user: ユーザ
   views:
     pagination:
       first: "&laquo; 最初"
