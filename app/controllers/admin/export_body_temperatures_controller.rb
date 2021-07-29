@@ -3,10 +3,10 @@ class Admin::ExportBodyTemperaturesController < ApplicationController
 
   def index
     @selected_search_measurement_date = format_search_measurement_date_start
-    if @selected_search_measurement_date.present?
-      @body_temperatures = get_body_temperatures(@selected_search_measurement_date).page(params[:page]).per(25)
-    end
-    flash.now[:alert] = '該当データが存在しません。' if @selected_search_measurement_date.present? && @body_temperatures.blank?
+    return if @selected_search_measurement_date.blank?
+
+    @body_temperatures = get_body_temperatures(@selected_search_measurement_date).page(params[:page]).per(25)
+    flash.now[:alert] = '該当データが存在しません。' if @body_temperatures.blank?
   end
 
   def export
