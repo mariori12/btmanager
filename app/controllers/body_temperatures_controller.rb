@@ -3,9 +3,9 @@ class BodyTemperaturesController < ApplicationController
 
   def index
     @user = identify_user_information
-    @selected_search_measurement_date = format_search_measurement_date_start
-    @body_temperatures = get_body_temperatures(@user, @selected_search_measurement_date).page(params[:page]).per(25)
-    flash.now[:alert] = '該当データが存在しません。' if @selected_search_measurement_date.present? && @body_temperatures.blank?
+    @selected_search_measurement_date_start = format_search_measurement_date_start
+    @body_temperatures = get_body_temperatures(@user, @selected_search_measurement_date_start).page(params[:page]).per(25)
+    flash.now[:alert] = '該当データが存在しません。' if @selected_search_measurement_date_start.present? && @body_temperatures.blank?
   end
 
   def create

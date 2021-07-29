@@ -2,17 +2,17 @@ class Admin::ExportBodyTemperaturesController < ApplicationController
   before_action :require_admin
 
   def index
-    @selected_search_measurement_date = format_search_measurement_date_start
-    return if @selected_search_measurement_date.blank?
+    @selected_search_measurement_date_start = format_search_measurement_date_start
+    return if @selected_search_measurement_date_start.blank?
 
-    @body_temperatures = get_body_temperatures(@selected_search_measurement_date).page(params[:page]).per(25)
+    @body_temperatures = get_body_temperatures(@selected_search_measurement_date_start).page(params[:page]).per(25)
     flash.now[:alert] = '該当データが存在しません。' if @body_temperatures.blank?
   end
 
   def export
     users = User.all
     day_names = t('date.abbr_day_names')
-    start_date = params[:selected_search_measurement_date].try(:to_date)
+    start_date = params[:selected_search_measurement_date_start].try(:to_date)
     end_date = start_date.try(:end_of_month)
     date_range = start_date..end_date
     body_temperatures_hash = BodyTemperature.create_body_temperatures_hash_of_user(date_range)
