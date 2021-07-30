@@ -5,7 +5,7 @@ class Admin::ExportBodyTemperaturesController < ApplicationController
     @selected_search_measurement_date_start = format_search_measurement_date_start
     return if @selected_search_measurement_date_start.blank?
 
-    @body_temperatures = get_body_temperatures(@selected_search_measurement_date_start).page(params[:page]).per(25)
+    @body_temperatures = get_body_temperatures(@selected_search_measurement_date_start).page(params[:page])
     flash.now[:alert] = '該当データが存在しません。' if @body_temperatures.blank?
   end
 
