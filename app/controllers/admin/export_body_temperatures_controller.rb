@@ -34,9 +34,8 @@ class Admin::ExportBodyTemperaturesController < ApplicationController
   def format_search_measurement_date_start
     year = params[:'search_measurement_date(1i)']
     month = params[:'search_measurement_date(2i)']
-    day = params[:'search_measurement_date(3i)']
 
-    Date.new year.to_i, month.to_i, day.to_i if year.present? && month.present? && day.present?
+    Date.new(year.to_i, month.to_i).beginning_of_month if year.present? && month.present?
   end
 
   def export_body_temperatures_csv(users, date_range, body_temperatures_hash)
