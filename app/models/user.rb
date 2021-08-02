@@ -3,7 +3,7 @@ class User < ApplicationRecord
 
   has_many :body_temperatures, dependent: :destroy
 
-  before_save { self.email = email.downcase }
+  before_save :downcase_email
 
   validates :name, presence: true
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/i.freeze
@@ -12,4 +12,9 @@ class User < ApplicationRecord
 
   scope :sorted, -> { order(id: :asc) }
 
+  private
+
+  def downcase_email
+    self.email = email.downcase
+  end
 end

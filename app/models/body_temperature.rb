@@ -1,7 +1,7 @@
 class BodyTemperature < ApplicationRecord
   belongs_to :user
 
-  before_save { self.temperature = temperature.floor(1) }
+  before_save :temperature_rounddown
 
   BODY_TEMPERATURE_RANGE = { min: 35.9, max: 38.1 }.freeze
   validates :temperature,
@@ -53,5 +53,11 @@ class BodyTemperature < ApplicationRecord
       hash[body_temperature.user_id] = {} if hash[body_temperature.user_id].nil?
       hash[body_temperature.user_id][body_temperature.measurement_date.day] = body_temperature.temperature
     end
+  end
+
+  private
+
+  def temperature_rounddown
+    self.temperature = temperature.floor(1)
   end
 end
