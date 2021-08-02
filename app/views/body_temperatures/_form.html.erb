@@ -9,11 +9,11 @@
     </div>
     <div class="col-md-auto me-5">
       <%= f.label :measurement_date, '検温日' %><br>
-      <%= f.date_select :measurement_date, { use_month_numbers: true }, { class:'form-select-sm d-inline-block w-auto' } %>
+      <%= f.date_select :measurement_date, { use_month_numbers: true }, class: 'form-select-sm d-inline-block w-auto' %>
     </div>
     <div class="col-md-auto pe-0">
       <%= f.label :temperature, '体温' %><br>
-      <%= f.select :temperature, BodyTemperature.create_body_temperatures_array, { prompt: '--' }, { class: 'form-select-sm' } %>
+      <%= f.select :temperature, BodyTemperature.create_body_temperatures_array, { prompt: '--' }, class: 'form-select-sm' %>
       &nbsp;℃&nbsp;
     </div>
   </div>

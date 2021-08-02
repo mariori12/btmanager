@@ -3,9 +3,9 @@
     <div class="col-md-auto me-1 p-2 border border-dark">
       <%= f.label :search_measurement_date, '検温年月' %>
       <% if selected_search_measurement_date_start.present? %>
-        <%= f.date_select :search_measurement_date, { use_month_numbers: true, discard_day: true, selected: selected_search_measurement_date_start }, { class:'form-select-sm d-inline-block w-auto' } %>
+        <%= f.date_select :search_measurement_date, { use_month_numbers: true, discard_day: true, selected: selected_search_measurement_date_start }, class: 'form-select-sm d-inline-block w-auto' %>
       <% else %>
-        <%= f.date_select :search_measurement_date, { use_month_numbers: true, discard_day: true, prompt: '--' }, { class:'form-select-sm d-inline-block w-auto' } %>
+        <%= f.date_select :search_measurement_date, { use_month_numbers: true, discard_day: true, prompt: '--' }, class: 'form-select-sm d-inline-block w-auto' %>
       <% end %>
     </div>
     <div class="col-md-auto me-0">
