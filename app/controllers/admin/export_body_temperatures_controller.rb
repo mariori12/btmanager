@@ -11,14 +11,13 @@ class Admin::ExportBodyTemperaturesController < ApplicationController
 
   def export
     users = User.all
-    day_names = t('date.abbr_day_names')
     start_date = params[:selected_search_measurement_date_start].try(:to_date)
     end_date = start_date.try(:end_of_month)
     date_range = start_date..end_date
     body_temperatures_hash = BodyTemperature.create_body_temperatures_hash_of_user(date_range)
     respond_to do |format|
       format.csv do
-        export_body_temperatures_csv(users, day_names, date_range, body_temperatures_hash)
+        export_body_temperatures_csv(users, date_range, body_temperatures_hash)
       end
     end
   end
@@ -40,15 +39,16 @@ class Admin::ExportBodyTemperaturesController < ApplicationController
     Date.new year.to_i, month.to_i, day.to_i if year.present? && month.present? && day.present?
   end
 
-  def export_body_temperatures_csv(users, day_names, date_range, body_temperatures_hash)
+  def export_body_temperatures_csv(users, date_range, body_temperatures_hash)
     return if users.blank? || body_temperatures_hash.blank? || date_range.blank?
 
     send_data NKF.nkf(
-      '-Lw --ic=UTF-8 --oc=CP932', csv_data(users, day_names, date_range, body_temperatures_hash)
+      '-Lw --ic=UTF-8 --oc=CP932', csv_data(users, date_range, body_temperatures_hash)
     ), filename: 'body_temperatures.csv', type: 'text/csv; charset=CP932;'
   end
 
-  def csv_data(users, day_names, date_range, body_temperatures_hash)
+  def csv_data(users, date_range, body_temperatures_hash)
+    day_names = t('date.abbr_day_names')
     CSV.generate do |csv|
       csv << csv_header(users)
 
