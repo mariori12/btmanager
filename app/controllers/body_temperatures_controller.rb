@@ -48,7 +48,7 @@ class BodyTemperaturesController < ApplicationController
 
   def destroy
     body_temperature = BodyTemperature.find(params[:id])
-    body_temperature.destroy
+    body_temperature.destroy!
     redirect_to body_temperatures_url(user_id: body_temperature.user.id),
                 notice: "「#{l(body_temperature.measurement_date, format: :default)}」の体温を削除しました。"
   end
