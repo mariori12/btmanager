@@ -9,8 +9,10 @@
 <div class="mb-3"></div>
 <% if @selected_search_measurement_date_start.blank? && @body_temperatures.blank? %>
   <div class="mt-5">
-    <p class="fs-3">「検温年月」を選択後、[検索する]ボタンを押下し</p>
-    <p class="fs-3">CSV出力対象の体温一覧を表示してください。</p>
+    <p class="fs-3">
+      「検温年月」を選択後、[検索する]ボタンを押下し<br>
+      CSV出力対象の体温一覧を表示してください。
+    </p>
   </div>
 <% else %>
   <table class="table table-hover">
