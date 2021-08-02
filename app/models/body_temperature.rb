@@ -9,7 +9,10 @@ class BodyTemperature < ApplicationRecord
                             less_than_or_equal_to: BODY_TEMPERATURE_RANGE[:max] }
   validates :measurement_date, presence: true, uniqueness: { scope: :user_id }
 
-  default_scope -> { order(user_id: :asc, measurement_date: :desc) }
+  scope :sorted, -> { order(user_id: :asc, measurement_date: :desc) }
+  scope :search_with_measurement_date, lambda { |measurement_date_range|
+    where(measurement_date: measurement_date_range).sorted
+  }
 
   BODY_TEMPERATURE_STEP = 0.1
   BODY_TEMPERATURE_OFFSET = 10.0
@@ -44,7 +47,7 @@ class BodyTemperature < ApplicationRecord
   def self.create_body_temperatures_hash_of_user(date_range)
     return if date_range.blank?
 
-    body_temperatures = where(measurement_date: date_range)
+    body_temperatures = search_with_measurement_date(date_range)
 
     body_temperatures.each_with_object({}) do |body_temperature, hash|
       hash[body_temperature.user_id] = {} if hash[body_temperature.user_id].nil?

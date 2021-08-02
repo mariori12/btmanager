@@ -28,7 +28,8 @@ class Admin::ExportBodyTemperaturesController < ApplicationController
     return if search_measurement_date_start.blank?
 
     search_measurement_date_end = search_measurement_date_start.end_of_month
-    BodyTemperature.where(measurement_date: search_measurement_date_start..search_measurement_date_end)
+    search_measurement_date_range = search_measurement_date_start..search_measurement_date_end
+    BodyTemperature.search_with_measurement_date(search_measurement_date_range)
   end
 
   def format_search_measurement_date_start

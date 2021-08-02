@@ -70,9 +70,10 @@ class BodyTemperaturesController < ApplicationController
   def get_body_temperatures(user, search_measurement_date_start)
     if search_measurement_date_start.present?
       search_measurement_date_end = search_measurement_date_start.end_of_month
-      user.body_temperatures.where(measurement_date: search_measurement_date_start..search_measurement_date_end)
+      search_measurement_date_range = search_measurement_date_start..search_measurement_date_end
+      user.body_temperatures.search_with_measurement_date(search_measurement_date_range)
     else
-      user.body_temperatures
+      user.body_temperatures.sorted
     end
   end
 
