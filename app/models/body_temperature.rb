@@ -5,9 +5,13 @@ class BodyTemperature < ApplicationRecord
 
   BODY_TEMPERATURE_RANGE = { min: 35.9, max: 38.1 }.freeze
   validates :temperature,
-            numericality: { message: :invalid, greater_than_or_equal_to: BODY_TEMPERATURE_RANGE[:min],
-                            less_than_or_equal_to: BODY_TEMPERATURE_RANGE[:max] }
-  validates :measurement_date, presence: true, uniqueness: { scope: :user_id }
+            numericality: {
+              message: :invalid,
+              greater_than_or_equal_to: BODY_TEMPERATURE_RANGE[:min],
+              less_than_or_equal_to: BODY_TEMPERATURE_RANGE[:max]
+            }
+  validates :measurement_date, presence: true
+  validates :measurement_date, uniqueness: { scope: :user_id }
 
   scope :sorted, -> { order(user_id: :asc, measurement_date: :desc) }
   scope :search_with_measurement_date, lambda { |measurement_date_range|
