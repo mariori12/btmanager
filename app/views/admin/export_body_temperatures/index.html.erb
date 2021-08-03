@@ -44,6 +44,6 @@
   </table>
 <% end %>
 <% if @selected_search_measurement_date_start.present? && @body_temperatures.present? %>
-  <%= link_to "体温一覧CSV出力", admin_temperatures_export_path(selected_search_measurement_date_start: @selected_search_measurement_date_start, format: :csv), class: 'btn btn-success me-2' %>
   <%= paginate @body_temperatures %>
+  <%= link_to "体温一覧CSV出力", admin_temperatures_export_path(selected_search_measurement_date_start: @selected_search_measurement_date_start, format: :csv), class: 'btn btn-success mb-3' %>
 <% end %>
