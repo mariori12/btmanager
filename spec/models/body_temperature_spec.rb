@@ -6,7 +6,7 @@ RSpec.describe BodyTemperature, type: :model do
 
   it 'ユーザID、体温、検温日があれば有効な状態であること' do
     body_temperature = BodyTemperature.new(
-      user_id: user.id,
+      user: user,
       temperature: 36.0,
       measurement_date: '2021/01/01'
     )
@@ -14,21 +14,21 @@ RSpec.describe BodyTemperature, type: :model do
   end
 
   it 'ユーザIDが無ければ無効な状態であること' do
-    body_temperature = FactoryBot.build(:body_temperature, user_id: nil)
+    body_temperature = FactoryBot.build(:body_temperature, user: nil)
     body_temperature.valid?
-    expect(body_temperature.errors[:user]).to include('を入力してください')
+    expect(body_temperature.errors[:user]).to include 'を入力してください'
   end
 
   it '体温がなければ無効な状態であること' do
     body_temperature = FactoryBot.build(:body_temperature, temperature: nil)
     body_temperature.valid?
-    expect(body_temperature.errors[:temperature]).to include('は不正な値です')
+    expect(body_temperature.errors[:temperature]).to include 'は不正な値です'
   end
 
   it '体温が数値でなければ無効な状態であること' do
     body_temperature = FactoryBot.build(:body_temperature, temperature: 'test')
     body_temperature.valid?
-    expect(body_temperature.errors[:temperature]).to include('は不正な値です')
+    expect(body_temperature.errors[:temperature]).to include 'は不正な値です'
   end
 
   it '体温が35.9以上38.1以下であれば有効な状態であること' do
@@ -41,29 +41,29 @@ RSpec.describe BodyTemperature, type: :model do
   it '体温が35.8以下又は38.2以上であれば無効な状態であること' do
     body_temperature = FactoryBot.build(:body_temperature, temperature: 35.8)
     body_temperature.valid?
-    expect(body_temperature.errors[:temperature]).to include('は不正な値です')
+    expect(body_temperature.errors[:temperature]).to include 'は不正な値です'
     body_temperature = FactoryBot.build(:body_temperature, temperature: 38.2)
     body_temperature.valid?
-    expect(body_temperature.errors[:temperature]).to include('は不正な値です')
+    expect(body_temperature.errors[:temperature]).to include 'は不正な値です'
   end
 
   it '検温日がなければ無効な状態であること' do
     body_temperature = FactoryBot.build(:body_temperature, measurement_date: nil)
     body_temperature.valid?
-    expect(body_temperature.errors[:measurement_date]).to include('を入力してください')
+    expect(body_temperature.errors[:measurement_date]).to include 'を入力してください'
   end
 
   it 'ユーザに対して重複した検温日なら無効な状態であること' do
-    FactoryBot.create(:body_temperature, user_id: user.id, measurement_date: '2021/01/01')
-    body_temperature = FactoryBot.build(:body_temperature, user_id: user.id, measurement_date: '2021/01/01')
+    FactoryBot.create(:body_temperature, user: user, measurement_date: '2021/01/01')
+    body_temperature = FactoryBot.build(:body_temperature, user: user, measurement_date: '2021/01/01')
     body_temperature.valid?
-    expect(body_temperature.errors[:measurement_date]).to include('はすでに存在します')
-    body_temperature = FactoryBot.build(:body_temperature, user_id: other_user.id, measurement_date: '2021/01/01')
+    expect(body_temperature.errors[:measurement_date]).to include 'はすでに存在します'
+    body_temperature = FactoryBot.build(:body_temperature, user: other_user, measurement_date: '2021/01/01')
     expect(body_temperature).to be_valid
   end
 
   it '35.9から38.1までの体温が格納された配列を取得できること' do
-    expect_body_temperatures_array = [
+    expect(BodyTemperature.create_body_temperatures_array).to eq [
       ['36.0℃未満', 35.9],
       ['36.0', 36.0],
       ['36.1', 36.1],
@@ -88,24 +88,23 @@ RSpec.describe BodyTemperature, type: :model do
       ['38.0', 38.0],
       ['38.1℃以上', 38.1]
     ]
-    expect(BodyTemperature.create_body_temperatures_array).to eq expect_body_temperatures_array
   end
 
   describe '体温を文字列に変換する' do
     context '体温が38.1以上であるとき' do
-      it '「38.1℃ 以上」という文字列が取得できること' do
+      it '「38.1℃以上」という文字列が取得できること' do
         expect(BodyTemperature.convert_body_temperature_display(38.1)).to eq '38.1℃以上'
       end
     end
 
     context '体温が36.0未満であるとき' do
-      it '「36.0℃ 未満」という文字列が取得できること' do
+      it '「36.0℃未満」という文字列が取得できること' do
         expect(BodyTemperature.convert_body_temperature_display(35.9)).to eq '36.0℃未満'
       end
     end
 
     context '体温が36.0以上38.1未満であるとき' do
-      it '「体温の値℃ 」という文字列が取得できること' do
+      it '「体温の値℃」という文字列が取得できること' do
         expect(BodyTemperature.convert_body_temperature_display(36.0)).to eq '36.0℃'
         expect(BodyTemperature.convert_body_temperature_display(38.0)).to eq '38.0℃'
       end
@@ -113,26 +112,26 @@ RSpec.describe BodyTemperature, type: :model do
   end
 
   it '指定した日付範囲に対応する体温のハッシュを取得できること' do
-    FactoryBot.create(:body_temperature, user_id: user.id, temperature: 36.1, measurement_date: '2021/01/01')
-    FactoryBot.create(:body_temperature, user_id: user.id, temperature: 36.2, measurement_date: '2021/01/02')
-    FactoryBot.create(:body_temperature, user_id: user.id, temperature: 36.3, measurement_date: '2021/01/03')
-    FactoryBot.create(:body_temperature, user_id: other_user.id, temperature: 37.5, measurement_date: '2021/01/10')
-    FactoryBot.create(:body_temperature, user_id: other_user.id, temperature: 37.6, measurement_date: '2021/01/11')
-    expect_body_temperatures_hash = Hash.new { |h, k| h[k] = {} }
-    expect_body_temperatures_hash[1][1] = 36.1
-    expect_body_temperatures_hash[1][2] = 36.2
-    expect_body_temperatures_hash[1][3] = 36.3
-    expect_body_temperatures_hash[2][10] = 37.5
-    expect_body_temperatures_hash[2][11] = 37.6
-    date_start = Date.new(2021, 1, 1)
-    date_end = Date.new(2021, 1, 31)
-    date_range = date_start..date_end
-    expect(BodyTemperature.create_body_temperatures_hash_of_user(date_range)).to eq expect_body_temperatures_hash
+    [
+      { user: user, temperature: 36.1, measurement_date: '2021/01/01' },
+      { user: user, temperature: 36.2, measurement_date: '2021/01/02' },
+      { user: user, temperature: 36.3, measurement_date: '2021/01/03' },
+      { user: other_user, temperature: 37.5, measurement_date: '2021/01/10' },
+      { user: other_user, temperature: 37.6, measurement_date: '2021/01/11' }
+    ].each do |data|
+      FactoryBot.create(:body_temperature, **data)
+    end
+    date_range = Date.new(2021, 1, 1)..Date.new(2021, 1, 31)
+    expect(BodyTemperature.create_body_temperatures_hash_of_user(date_range)).to eq(
+      {
+        user.id => { 1 => 36.1, 2 => 36.2, 3 => 36.3 },
+        other_user.id => { 10 => 37.5, 11 => 37.6 }
+      }
+    )
   end
 
-  it '体温の小数点以下の有効桁数が1桁にされていること' do
+  it '体温が小数点以下第二位で切り捨てされていること' do
     body_temperature = FactoryBot.build(:body_temperature, temperature: 36.15432)
-    body_temperature.save
-    expect(body_temperature[:temperature]).to eq(36.1)
+    expect { body_temperature.save! }.to change(body_temperature, :temperature).from(36.15432).to(36.1)
   end
 end
