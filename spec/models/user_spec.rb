@@ -13,13 +13,13 @@ RSpec.describe User, type: :model do
   it '名前が無ければ無効な状態であること' do
     user = FactoryBot.build(:user, name: nil)
     user.valid?
-    expect(user.errors[:name]).to include('を入力してください')
+    expect(user.errors[:name]).to include 'を入力してください'
   end
 
   it 'メールアドレスがなければ無効な状態であること' do
     user = FactoryBot.build(:user, email: nil)
     user.valid?
-    expect(user.errors[:email]).to include('を入力してください')
+    expect(user.errors[:email]).to include 'を入力してください'
   end
 
   describe 'メールアドレスのフォーマット検証' do
@@ -32,7 +32,7 @@ RSpec.describe User, type: :model do
 
     context 'フォーマットに沿っていないとき' do
       it 'メールアドレスが無効な状態であること' do
-        invalid_addresses = [
+        [
           'user@example,com',
           '  @example.com',
           'user@  .com',
@@ -40,11 +40,10 @@ RSpec.describe User, type: :model do
           'user.name@example.',
           'foo@bar_baz.com',
           'foo@bar+baz.com'
-        ]
-        invalid_addresses.each do |invalid_address|
+        ].each do |invalid_address|
           user = FactoryBot.build(:user, email: invalid_address)
           user.valid?
-          expect(user.errors[:email]).to include('は不正な値です')
+          expect(user.errors[:email]).to include 'は不正な値です'
         end
       end
     end
@@ -54,12 +53,11 @@ RSpec.describe User, type: :model do
     FactoryBot.create(:user, email: 'user@example.com')
     other_user = FactoryBot.build(:user, email: 'user@example.com')
     expect(other_user).not_to be_valid
-    expect(other_user.errors[:email]).to include('はすでに存在します')
+    expect(other_user.errors[:email]).to include 'はすでに存在します'
   end
 
   it 'メールアドレスが小文字化されていること' do
     user = FactoryBot.build(:user, email: 'USER@example.com')
-    user.save
-    expect(user[:email]).to eq('user@example.com')
+    expect { user.save! }.to change(user, :email).from('USER@example.com').to('user@example.com')
   end
 end

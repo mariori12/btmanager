@@ -2,7 +2,7 @@ class Admin::UsersController < ApplicationController
   before_action :require_admin
 
   def index
-    @users = User.all.page(params[:page]).per(25)
+    @users = User.all.sorted.page(params[:page])
   end
 
   def create
@@ -39,7 +39,7 @@ class Admin::UsersController < ApplicationController
 
   def destroy
     user = User.find(params[:id])
-    user.destroy
+    user.destroy!
     redirect_to admin_users_url, notice: "ユーザ「#{user.name}」を削除しました。"
   end
 
