@@ -1,5 +1,6 @@
 class BodyTemperaturesController < ApplicationController
   before_action :login_required
+  before_action :check_browsable, only: %i[edit show update destroy]
 
   def index
     @user = identify_user_information
@@ -82,5 +83,9 @@ class BodyTemperaturesController < ApplicationController
     month = params[:'search_measurement_date(2i)']
 
     Date.new(year.to_i, month.to_i).beginning_of_month if year.present? && month.present?
+  end
+
+  def check_browsable
+    redirect_to root_url if !current_user.admin? && current_user.body_temperatures.find_by(id: params[:id]).nil?
   end
 end
