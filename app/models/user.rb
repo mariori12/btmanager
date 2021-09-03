@@ -3,17 +3,18 @@ class User < ApplicationRecord
 
   has_many :body_temperatures, dependent: :destroy
 
-  before_save { self.email = email.downcase }
+  before_save :downcase_email
 
   validates :name, presence: true
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/i.freeze
   validates :email, presence: true, format: { with: VALID_EMAIL_REGEX }, uniqueness: true
   validates :password, presence: true, allow_nil: true
 
-  default_scope -> { order(id: :asc) }
+  scope :sorted, -> { order(id: :asc) }
 
-  def self.digest(string)
-    cost = ActiveModel::SecurePassword.min_cost ? BCrypt::Engine::MIN_COST : BCrypt::Engine.cost
-    BCrypt::Password.create(string, cost: cost)
+  private
+
+  def downcase_email
+    self.email = email.downcase
   end
 end

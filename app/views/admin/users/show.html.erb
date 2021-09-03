@@ -15,7 +15,7 @@
     </tr>
     <tr>
       <th><%= User.human_attribute_name(:admin) %></th>
-      <td><%= @user.admin? ? '○' : '×' %></td>
+      <td><%= convert_boolean_to_character(@user.admin?) %></td>
     </tr>
     <tr>
       <th><%= User.human_attribute_name(:created_at) %></th>

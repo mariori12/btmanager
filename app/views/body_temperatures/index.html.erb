@@ -1,11 +1,11 @@
 <h1>
   <%= "[#{@user.name}]" %>さんの体温一覧
-  <% if @selected_search_measurement_date.present? %>
-    <span class="fs-4"><%="(「#{l(@selected_search_measurement_date, format: :year_month)}」の検索結果)" %></span>
+  <% if @selected_search_measurement_date_start.present? %>
+    <span class="fs-4"><%="(「#{l(@selected_search_measurement_date_start, format: :year_month)}」の検索結果)" %></span>
   <% end %>
 </h1>
 <%= link_to '新規登録', new_body_temperature_path(user_id: @user.id), class: 'btn btn-primary mt-3 mb-2' %>
-<%= render 'search', user: @user, selected_search_measurement_date: @selected_search_measurement_date %>
+<%= render 'search', user: @user, selected_search_measurement_date_start: @selected_search_measurement_date_start %>
 
 <div class="mb-3"></div>
 <table class="table table-hover">

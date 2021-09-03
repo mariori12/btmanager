@@ -1,16 +1,18 @@
 <h1>
   帳票出力
-  <% if @selected_search_measurement_date.present? %>
-    <span class="fs-4"><%="(「#{l(@selected_search_measurement_date, format: :year_month)}」の検索結果)" %></span>
+  <% if @selected_search_measurement_date_start.present? %>
+    <span class="fs-4"><%="(「#{l(@selected_search_measurement_date_start, format: :year_month)}」の検索結果)" %></span>
   <% end %>
 </h1>
-<%= render 'search', selected_search_measurement_date: @selected_search_measurement_date %>
+<%= render 'search', selected_search_measurement_date_start: @selected_search_measurement_date_start %>
 
 <div class="mb-3"></div>
-<% if @selected_search_measurement_date.blank? && @body_temperatures.blank? %>
+<% if @selected_search_measurement_date_start.blank? && @body_temperatures.blank? %>
   <div class="mt-5">
-    <p class="fs-3">「検温年月」を選択後、[検索する]ボタンを押下し</p>
-    <p class="fs-3">CSV出力対象の体温一覧を表示してください。</p>
+    <p class="fs-3">
+      「検温年月」を選択後、[検索する]ボタンを押下し<br>
+      CSV出力対象の体温一覧を表示してください。
+    </p>
   </div>
 <% else %>
   <table class="table table-hover">
@@ -41,7 +43,7 @@
     </tbody>
   </table>
 <% end %>
-<% if @selected_search_measurement_date.present? && @body_temperatures.present? %>
-  <%= link_to "体温一覧CSV出力", admin_temperatures_export_path(selected_search_measurement_date: @selected_search_measurement_date, format: :csv), class: 'btn btn-success me-2' %>
+<% if @selected_search_measurement_date_start.present? && @body_temperatures.present? %>
   <%= paginate @body_temperatures %>
+  <%= link_to "体温一覧CSV出力", admin_temperatures_export_path(selected_search_measurement_date_start: @selected_search_measurement_date_start, format: :csv), class: 'btn btn-success mb-3' %>
 <% end %>
