@@ -1,4 +1,6 @@
 class User < ApplicationRecord
+  include CsvOperatable
+
   has_secure_password
 
   has_many :body_temperatures, dependent: :destroy

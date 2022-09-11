@@ -1,4 +1,6 @@
 class BodyTemperature < ApplicationRecord
+  include CsvOperatable
+
   belongs_to :user
 
   before_save :temperature_rounddown
