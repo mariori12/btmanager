@@ -1,0 +1,22 @@
+<h1>CSV入出力</h1>
+
+<p>下記手順に従ってCSV入出力を実行することで、環境を移行することが可能です。</p>
+<ul class="list-group">
+  <li class="list-group-item">①旧環境にて[ユーザCSV出力]ボタン、[体温CSV出力]ボタンを順に押下して `users.csv` と `body_temperatures.csv` を任意の場所に保存します。</li>
+  <li class="list-group-item">②新環境にて管理者権限を持つ任意のユーザでログインし、CSV入出力ページに移動します。</li>
+  <li class="list-group-item">③ `users.csv` をファイル選択後、[CSV入力]ボタンを押下します。</li>
+  <li class="list-group-item">※ユーザデータを入力した結果、管理者権限を持つ任意のユーザが消失した際は再度ログインしてください。</li>
+  <li class="list-group-item">④ `body_temperatures.csv` をファイル選択後、[CSV入力]ボタンを押下します。</li>
+</ul>
+
+<div class="me-3 p-3">
+  <%= link_to 'ユーザCSV出力', admin_export_and_import_csv_export_path(table_name: :users, format: :csv), class: 'btn btn-success mt-1 mb-3' %>
+  <%= link_to '体温CSV出力', admin_export_and_import_csv_export_path(table_name: :body_temperatures, format: :csv), class: 'btn btn-success mt-1 mb-3' %>
+</div>
+
+<div class="me-3 p-3">
+  <%= form_with url: admin_export_and_import_csv_import_path, local: true do |f| %>
+    <%= f.file_field :file, accept: '.csv' %>
+    <%= f.submit 'CSV入力', class: 'btn btn-success mt-1 mb-3', data: { confirm: 'CSV入力を実行します。よろしいですか？( `users.csv` 又は `body_temperatures.csv` を入力することが可能です。)' } %>
+  <% end %>
+</div>
