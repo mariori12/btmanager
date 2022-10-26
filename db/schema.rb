@@ -10,12 +10,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_08_043505) do
+ActiveRecord::Schema.define(version: 2022_10_26_063806) do
+
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
 
   create_table "body_temperatures", force: :cascade do |t|
     t.date "measurement_date", null: false
     t.float "temperature", null: false
-    t.integer "user_id", null: false
+    t.bigint "user_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["measurement_date", "user_id"], name: "index_body_temperatures_on_measurement_date_and_user_id", unique: true
@@ -29,6 +32,7 @@ ActiveRecord::Schema.define(version: 2021_06_08_043505) do
     t.boolean "admin", default: false, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "remember_digest"
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 

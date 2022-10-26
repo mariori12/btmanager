@@ -9,5 +9,11 @@
     <%= f.label :password, 'パスワード' %>
     <%= f.password_field :password, class: 'form-control' %>
   </div>
+  <div class="mb-3 form-check">
+    <%= f.label :remember_cookies, class: 'form-check-label' do %>
+      <%= f.check_box :remember_cookies, class: 'form-check-input' %>
+      ログイン状態を保持
+    <% end %>
+  </div>
   <%= f.submit 'ログインする', class: 'btn btn-primary' %>
 <% end %>
