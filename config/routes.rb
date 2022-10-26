@@ -11,6 +11,10 @@ Rails.application.routes.draw do
 
     get '/temperatures', to: 'export_body_temperatures#index'
     get '/temperatures/export', to: 'export_body_temperatures#export'
+
+    get '/export_and_import_csv', to: 'export_and_import_csv#index'
+    get '/export_and_import_csv/export', to: 'export_and_import_csv#export'
+    post '/export_and_import_csv/import', to: 'export_and_import_csv#import'
   end
   resources :body_temperatures
 end

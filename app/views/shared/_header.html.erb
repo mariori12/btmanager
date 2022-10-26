@@ -11,6 +11,7 @@
           <% if current_user.admin? %>
             <li class="nav-item px-1"><%= link_to 'ユーザ一覧', admin_users_path, class: 'nav-link' %></li>
             <li class="nav-item px-1"><%= link_to '帳票出力', admin_temperatures_path, class: 'nav-link' %></li>
+            <li class="nav-item px-1"><%= link_to 'CSV入出力', admin_export_and_import_csv_path, class: 'nav-link' %></li>
           <% end %>
           <li class="nav-item px-1"><%= link_to 'ログアウト', logout_path, method: :delete, class: 'nav-link' %> </li>
         <% else %>
